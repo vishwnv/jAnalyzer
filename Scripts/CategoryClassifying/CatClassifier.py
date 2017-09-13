@@ -196,10 +196,11 @@ class CatClassF(object):
         return self.voted_classifier.classify(features), self.voted_classifier.confidence(features)
 
     def extractSentenceToFile(self,text):
-        fileTobeWritten = 'E:/CDAP/FlaskProject/TextFiles/Outputs/'
+        fileTobeWritten = ''
         sent_text = nltk.sent_tokenize(text)  # this gives us a list of sentences
         # now loop over each sentence and tokenize it separately
         for sentence in sent_text:
+            fileTobeWritten = 'E:/CDAP/FlaskProject/TextFiles/Outputs/'
             cat, conf = self.categoryClassification(sentence)
             if conf >= 0.5:
                 fileTobeWritten = fileTobeWritten + cat + '.txt'
@@ -216,8 +217,8 @@ class CatClassF(object):
         self.loadClassifiers()
         self.VoteCFs()
 
-        #review = open("E:/CDAP/FlaskProject/Testing/TestInputs/reviewToBeTested.txt", "r").read()
-        #self.extractSentenceToFile(review)
+        review = open("E:/CDAP/FlaskProject/Testing/TestInputs/reviewToBeTested.txt", "r").read()
+        self.extractSentenceToFile(review)
 ####for r in short_pos.split('\n'):
 ####    documents.append((r, "pos"))
 ####
