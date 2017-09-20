@@ -21,6 +21,7 @@ class VoteClassifier(ClassifierI):
     def classify(self, features):
         votes = []
         for c in self._classifiers:
+            print("sentiment classifier is " + str(c))
             v = c.classify(features)
             votes.append(v)
         return mode(votes)
@@ -159,11 +160,11 @@ class Analyzer(object):
 
         # LogisticRegression_classifier = SklearnClassifier(LogisticRegression())
         # LogisticRegression_classifier.train(training_set)
-        LogisticRegression_classifier_f = open(commonFilePath + "Logistic.pickle", "rb")
-        self.LogisticRegression_classifier = pickle.load(LogisticRegression_classifier_f)
-        LogisticRegression_classifier_f.close()
-        print(" LogisticRegression_classifier accuracy percent: ",
-              (nltk.classify.accuracy(self.LogisticRegression_classifier, self.testing_set)) * 100)
+        #LogisticRegression_classifier_f = open(commonFilePath + "Logistic.pickle", "rb")
+        #self.LogisticRegression_classifier = pickle.load(LogisticRegression_classifier_f)
+        #LogisticRegression_classifier_f.close()
+        #print(" LogisticRegression_classifier accuracy percent: ",
+        #      (nltk.classify.accuracy(self.LogisticRegression_classifier, self.testing_set)) * 100)
         # save_LogisticRegression = open("Logistic.pickle" , "wb")
         # pickle.dump(LogisticRegression_classifier , save_LogisticRegression)
         # save_LogisticRegression.close()
@@ -183,10 +184,10 @@ class Analyzer(object):
 
         # SVC_classifier = SklearnClassifier(SVC())
         # SVC_classifier.train(training_set)
-        SVC_classifier_f = open(commonFilePath + "SVC.pickle", "rb")
-        self.SVC_classifier = pickle.load(SVC_classifier_f)
-        SVC_classifier_f.close()
-        print(" SVC_classifier accuracy percent: ", (nltk.classify.accuracy(self.SVC_classifier, self.testing_set)) * 100)
+        #SVC_classifier_f = open(commonFilePath + "SVC.pickle", "rb")
+        #self.SVC_classifier = pickle.load(SVC_classifier_f)
+        #SVC_classifier_f.close()
+        #print(" SVC_classifier accuracy percent: ", (nltk.classify.accuracy(self.SVC_classifier, self.testing_set)) * 100)
         # save_SVC_classifier = open("SVC.pickle" , "wb")
         # pickle.dump(SVC_classifier , save_SVC_classifier)
         # save_SVC_classifier.close()
@@ -218,8 +219,8 @@ class Analyzer(object):
                                           self.LinearSVC_classifier,
                                           #self.SGDClassifier_classifier,
                                           self.MNB_classifier,
-                                          self.BernoulliNB_classifier,
-                                          self.LogisticRegression_classifier
+                                          self.BernoulliNB_classifier
+                                          #self.LogisticRegression_classifier
                                           )
     def printVotedClfAccuracies(self):
 

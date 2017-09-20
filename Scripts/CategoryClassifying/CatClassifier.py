@@ -21,7 +21,9 @@ class VoteClassifier(ClassifierI):
     def classify(self, features):
         votes = []
         for c in self._classifiers:
+            print(c)
             v = c.classify(features)
+            print(v)
             votes.append(v)
         return mode(votes)
 
@@ -80,8 +82,9 @@ class CatClassF(object):
         # posterior = prior occurences x liklihood / evidence
 
         # positive data example
-        self.training_set = self.featuresets[:900]
-        self.testing_set = self.featuresets[900:]
+        print(len(self.featuresets))
+        self.training_set = self.featuresets[:600]
+        self.testing_set = self.featuresets[600:]
 
 
 
@@ -184,16 +187,25 @@ class CatClassF(object):
         # save_SVC_classifier.close()
 
     def VoteCFs(self):
-        self.voted_classifier = VoteClassifier(self.classifier,
-                                          self.SGDClassifier_classifier,
-                                          self.MNB_classifier,
-                                          self.BernoulliNB_classifier,
-                                          self.LogisticRegression_classifier
+        self.voted_classifier = VoteClassifier(
+                                          self.SGDClassifier_classifier
+                                          #self.MNB_classifier
+                                          #self.BernoulliNB_classifier,
+                                          #self.LogisticRegression_classifier
                                           )
 
     def categoryClassification(self,text):
         features = self.find_features(text)
         return self.voted_classifier.classify(features), self.voted_classifier.confidence(features)
+        #return self.SVC_classifier.classify(features), 52
+
+    def ClearFiles(self):
+        commonFPath = "E:/CDAP/FlaskProject/TextFiles/Outputs/"
+
+        open(commonFPath + "acting.txt", "w").close()
+        open(commonFPath + "directing.txt", "w").close()
+        open(commonFPath + "storyline.txt", "w").close()
+
 
     def extractSentenceToFile(self,text):
         fileTobeWritten = ''
@@ -210,6 +222,7 @@ class CatClassF(object):
             with open(fileTobeWritten, "a+") as text_file:
                 # tokenized_text_string = ' '.join(sentence)
                 print(sentence, file=text_file)
+            print(sentence)
             print("category is " + str(cat) + "confidence is " + str(conf))
 
 
