@@ -1,7 +1,9 @@
+from nltk.tokenize import sent_tokenize
 from flask import Flask, request, render_template, flash, url_for , redirect
 from Scripts.CategoryClassifying import CatClassifier
 from Scripts.SentimentClassifying import SentimentAnalyzer
-
+from Scripts.NegationAnalyzing import NegationEndpoint
+from Scripts.NegationAnalyzing import NegationAnalyzer
 from JustTest.SubPackage import Cat
 
 
@@ -30,6 +32,25 @@ def AnalyzeForCategory():
     d.ClearFiles()
     d.DoClassification()
 
+def ConvertNegations(text):
+    covertedSentencs = []
+    convertedOutput = []
+    a = NegationAnalyzer.AntonymReplacer()
+
+    endpoint = NegationEndpoint.EndPoint()
+    tokenized_sent = sent_tokenize(text)
+
+    for t in tokenized_sent:
+        if (endpoint.retriveImportantTags(t, a)is not None and endpoint.retriveImportantTags(t, a)[0] != endpoint.retriveImportantTags(t, a)[1] ):
+            covertedSentencs.append(endpoint.retriveImportantTags(t, a))
+            convertedOutput.append(endpoint.retriveImportantTags(t, a)[0])
+        else:
+            convertedOutput.append(endpoint.retriveImportantTags(t, a)[1])
+
+    outParagraph = ' '.join(convertedOutput)
+    outNegatedList = ''.join(word[0] for word in covertedSentencs)
+    return covertedSentencs , outParagraph
+
 app = Flask(__name__)
 app.secret_key = 'Dont tell anyone'
 
@@ -54,8 +75,11 @@ def dashboard_post():
     processed_text = text.lower()
 
     txt_file = "E:/CDAP/FlaskProject/Testing/TestInputs/reviewToBeTested.txt"
+    txt_file_negations = "E:/CDAP/FlaskProject/TextFiles/Outputs/inputNegations.txt"
     try:
-        WriteDataToFile(processed_text,txt_file)
+        withNeg , withoutNeg = ConvertNegations(processed_text)
+        WriteDataToFile(withNeg,txt_file_negations)
+        WriteDataToFile(withoutNeg, txt_file)
         AnalyzeForCategory()
         flash('Successfully Analyzed')
     except ValueError:
@@ -113,6 +137,21 @@ def category_post():
         flash('Sentiment Analyzing interrupted')
         return render_template("dashboard/category.html")
 
+@app.route('/statistics')
+def statistics():
+    commonFilePath = "E:/CDAP/FlaskProject/TextFiles/Outputs/"
+
+    try:
+        negatedSentences = open(commonFilePath + "inputNegations.txt", "r").read()
+    except Exception as e:
+        print("Reading inputNeagations exception handled " + e)
+
+    print("negations are " + negatedSentences)
+
+    import ast
+    NEGLIST = ast.literal_eval(negatedSentences)
+
+    return render_template("dashboard/statistics.html" , negations = NEGLIST)
 
 @app.route('/gh')
 def tt():
