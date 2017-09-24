@@ -25,7 +25,14 @@ def WriteDataToFile(text , file):
     with open(file, "a+") as text_file:
         print(text, file=text_file)
 
+def GetListOfSentences(text):
+    sentList = []
+    tokenized_sents = sent_tokenize(text)
 
+    for t in tokenized_sents:
+        sentList.append(t)
+
+    return sentList
 
 def AnalyzeForCategory():
     d = CatClassifier.CatClassF()
@@ -121,7 +128,7 @@ def category_post():
     except Exception as e:
         print(e)
 
-    if directing is not None and acting is not None and acting is not None:
+    if directing is not None and acting is not None and storyline is not None:
         try:
             tempAct = s.sentiment(acting)
             tempStory = s.sentiment(storyline)
@@ -151,7 +158,30 @@ def statistics():
     import ast
     NEGLIST = ast.literal_eval(negatedSentences)
 
+
+    """
+        Following logic is for the dataset updates
+    """
+    commonFP= "TextFiles/Outputs/"
+
+    try:
+        directing = open(commonFP + "directing.txt", "r").read()
+        acting = open(commonFP + "acting.txt", "r").read()
+        storyline = open(commonFP + "storyline.txt", "r").read()
+    except Exception as e:
+        print(e)
+
+    if directing is not None and acting is not None and storyline is not None:
+        dirList = GetListOfSentences(directing)
+        actList = GetListOfSentences(acting)
+        storList = GetListOfSentences(storyline)
+        return render_template("dashboard/statistics.html", negations=NEGLIST, dirs=dirList, acts=actList,stors=storList)
+
     return render_template("dashboard/statistics.html" , negations = NEGLIST)
+
+@app.route('/statistics' , methods = [ 'POST'])
+def statistics_post():
+    print('s')
 
 @app.route('/gh')
 def tt():

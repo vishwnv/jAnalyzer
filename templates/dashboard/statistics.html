@@ -132,7 +132,7 @@
             </div>
         </nav>
 
-        <form action="http://localhost:5000/category" method="post">
+        <form action="http://localhost:5000/statistics" method="post">
         <div class="content"><br>
             <div class="container-fluid">
             {% with messages = get_flashed_messages() %}
@@ -184,53 +184,99 @@
                         </div>
                         <div class="card">
                             <div class="header">
-                                <h4 class="title">Storyline</h4>
+                                <h4 class="title">Categories Detected</h4>
                             </div>
                             <div class="content">
-                                    {% if stor %}
-                                        <p>{{stor}}</p>
-                                    {% else %}
-                                        <p>NOT YET ANALYZED</p>
-                                    {% endif %}
+                                    <div class="table-responsive">
+                                        <table class="table">
+                                            <th>Setentence</th>
+                                            <th>Category Selected</th>
 
-                                    <div style="color:red;">
-                                        Sentiment:
-                                            {% if act_stor %}
-                                                {{act_stor[0]}}
+                                            {% if acts %}
+                                                {% for a in acts %}
+                                                        <tr>
+                                                            <td>
+                                                                {% if a %}
+                                                                    {{a}}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                {% if a %}
+                                                                        <label class="radio-inline">
+                                                                            <input checked="checked" type="radio" name={{a}}  >Acting
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name={{a}} >Storyline
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name={{a}} >Directing
+                                                                        </label>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                {% endfor %}
                                             {% endif %}
-                                            <br>
-                                        Confident:
-                                            {% if act_stor %}
-                                                {{act_stor[1]}}
+
+                                            <!-- end of acting data -->
+                                            {% if dirs %}
+                                                {% for d in dirs %}
+                                                        <tr>
+                                                            <td>
+                                                                {% if d %}
+                                                                    {{d}}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                {% if d %}
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name={{d}}  >Acting
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name={{d}} >Storyline
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <input checked="checked" type="radio" name={{d}} >Directing
+                                                                        </label>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                {% endfor %}
                                             {% endif %}
+                                            <!-- end of direction data -->
+                                            {% if stors %}
+                                                {% for s in stors %}
+                                                        <tr>
+                                                            <td>
+                                                                {% if s %}
+                                                                    {{s}}
+                                                                {% endif %}
+                                                            </td>
+                                                            <td>
+                                                                {% if s %}
+                                                                        <label class="radio-inline">
+                                                                            <input checked="checked" type="radio" name={{s}}  >Acting
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <input checked="checked" type="radio" name={{s}} >Storyline
+                                                                        </label>
+                                                                        <label class="radio-inline">
+                                                                            <input type="radio" name={{s}} >Directing
+                                                                        </label>
+                                                                {% endif %}
+                                                            </td>
+                                                        </tr>
+                                                {% endfor %}
+                                            {% endif %}
+
+                                        </table>
+                                        <div style="color:red;">
+                                            * Please re-select the categories if the generated ones are not accurate and Update the classifiers so that you will more accurate answers
+                                        </div>
                                     </div>
-                            </div>
                             <!--End of card Storyline-->
                         </div>
                         <div class="card">
-                            <div class="header">
-                                <h4 class="title">Directing</h4>
-                            </div>
-                            <div class="content">
-                                    {% if dir %}
-                                        <p>{{dir}}</p>
-                                    {% else %}
-                                        <p>NOT YET ANALYZED</p>
-                                    {% endif %}
-                            <div style="color:red;">
-                                Sentiment:
-                                    {% if act_dir %}
-                                        {{act_dir[0]}}
-                                    {% endif %}
-                                    <br>
-                                Confident:
-                                    {% if act_dir %}
-                                        {{act_dir[1]}}
-                                    {% endif %}
-                            </div>
-                            </div>
-                            <!--End of card Directing-->
-                            <button  type="submit" style="margin-top:20px!important;margin-bottom:20px!important;" class = "btn btn-info btn-fill pull-right" type="text" >Get Sentiment</button>
+                            <button  type="submit" style="margin-top:20px!important;margin-bottom:20px!important;" class = "btn btn-info btn-fill pull-right" type="text" >Update Classifiers</button>
 
                         </div>
                     </div>
