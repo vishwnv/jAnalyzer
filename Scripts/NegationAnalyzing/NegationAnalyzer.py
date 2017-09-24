@@ -13,6 +13,9 @@ class AntonymReplacer(object):
 
         if len(antonyms) == 1:
             return antonyms.pop()
+        elif len(antonyms) > 1:
+            for ant in antonyms:
+                return ant
         else:
             return None
 
@@ -41,6 +44,6 @@ if __name__ == '__main__':
     a = AntonymReplacer()
     print(a.replace('good'))
     print(a.replace('agree'))
-    sent = ["It's", 'not', 'disagree', 'on', 'this']
+    sent = ["Let's", 'not', 'disagree', 'on', 'this']
     words = a.replace_negations(sent)
     print(words)
