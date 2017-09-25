@@ -30,9 +30,15 @@ class AntonymReplacer(object):
                 ant = self.replace(sent[i + 1])
 
                 if ant:
-                    words.append(ant)
-                    i += 2
-                    continue
+                    if sent[i + 2] == 'and' and sent[i + 3] == 'will' and sent[i + 4] == 'never':
+                        words.append('very')
+                        words.append(ant)
+                        i += 6
+                        continue
+                    else:
+                        words.append(ant)
+                        i += 2
+                        continue
 
             words.append(word)
             i += 1

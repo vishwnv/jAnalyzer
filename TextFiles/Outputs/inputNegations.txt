@@ -1,1 +1,1 @@
-[("let's agree actors have done a tremendous job.", "let's not disagree actors have done a tremendous job.") , ("let's agree yoo", "let's not disagree yoo")]
+[("let's agree actors have done a tremendous job.", "let's not disagree actors have done a tremendous job."), ("i'd like to say acting is very bad.", "i'd like to say acting is not good and will never good.")]

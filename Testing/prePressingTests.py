@@ -61,6 +61,6 @@ def ConvertNegations(text):
 
 
 #retriveAdjectives("Let's not disagree on this. " , b )
-s= "Let's not disagree on this. Kevin has directed many movies in a good way. actors have done a tremendous job. acting of Niel Grass is remarkable. Actions are well planed and very much likable. There is no thrilling moments in the plot. The story of this movie is very poor storywriting."
-
-ConvertNegations(s)
+s= "Let's not disagree on this. Kevin has directed many no agree movies in a good way. actors have done a tremendous job. acting of Niel Grass is remarkable. Actions are well planed and very much likable. There is no thrilling moments in the plot. The story of this movie is very poor storywriting."
+x = "It's not bad.  Let's not disagree on this. It is not good and will never succeed"
+ConvertNegations(x)
